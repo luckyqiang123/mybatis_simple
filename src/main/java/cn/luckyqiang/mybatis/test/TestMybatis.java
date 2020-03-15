@@ -2,6 +2,7 @@ package cn.luckyqiang.mybatis.test;
 
 import cn.luckyqiang.mybatis.dao.CodeSystemDAO;
 import cn.luckyqiang.mybatis.po.CodeSystemPO;
+import cn.luckyqiang.mybatis.session.DefaultSqlSessionFactory;
 import cn.luckyqiang.mybatis.session.SqlSession;
 import cn.luckyqiang.mybatis.session.SqlSessionFactory;
 
@@ -15,7 +16,7 @@ import cn.luckyqiang.mybatis.session.SqlSessionFactory;
 public class TestMybatis {
     public static void main(String[] args) {
         //实例化sqlsession
-        SqlSessionFactory factory = new SqlSessionFactory();
+        DefaultSqlSessionFactory factory = new DefaultSqlSessionFactory();
         SqlSession session = factory.openSession();
         //通过动态代理获取dao
         CodeSystemDAO codeSystemDAO = session.getMapper(CodeSystemDAO.class);

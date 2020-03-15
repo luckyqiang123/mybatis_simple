@@ -13,7 +13,7 @@ import java.util.Collection;
  * @Date: 2020-03-15 12:11
  * @Company: www.luckyqiang.cn
  */
-public class MapperProxy implements InvocationHandler {
+public class MapperProxy<T> implements InvocationHandler {
 
     private SqlSession sqlSession;
 
@@ -21,7 +21,7 @@ public class MapperProxy implements InvocationHandler {
         this.sqlSession = sqlSession;
     }
 
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) {
         if (Collection.class.isAssignableFrom(method.getReturnType())) {
             return sqlSession.selectList(method.getDeclaringClass().getName() + "." + method.getName(), args == null ? null : args[0]);
         } else {

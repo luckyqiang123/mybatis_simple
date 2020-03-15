@@ -1,6 +1,8 @@
 package cn.luckyqiang.mybatis.session;
 
 import cn.luckyqiang.mybatis.binding.MapperProxy;
+import cn.luckyqiang.mybatis.binding.MapperProxyFactory;
+import cn.luckyqiang.mybatis.binding.MapperRegistry;
 import cn.luckyqiang.mybatis.config.Configuration;
 import cn.luckyqiang.mybatis.config.MappedStatement;
 import cn.luckyqiang.mybatis.excutor.DefaultExecutor;
@@ -48,7 +50,7 @@ public class DefaultSqlSession implements SqlSession {
     }
 
     public <T> T getMapper(Class<T> type) {
-        MapperProxy mapperProxy = new MapperProxy(this);
-        return (T) Proxy.newProxyInstance(type.getClassLoader(), new Class[]{type}, mapperProxy);
+        MapperRegistry mapperRegistry = new MapperRegistry(configuration);
+        return mapperRegistry.getMapper(type, this);
     }
 }

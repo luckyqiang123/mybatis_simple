@@ -16,6 +16,24 @@ import java.sql.SQLException;
 public class ReflectionUtil {
 
     /**
+     * 从resultSet中读取一行数据，并填充到指定的实体bean
+     * @param entity 待填充的实体bean
+     * @param resultSet 从数据库加载的数据
+     */
+    public static void setPropToBeanFromResultSet(Object entity, ResultSet resultSet) throws SQLException {
+        Field[] declaredFields = entity.getClass().getDeclaredFields();
+        for (int i = 0; i < declaredFields.length; i++) {
+            if (declaredFields[i].getType().getSimpleName().equals("String")) {
+                setPropToBean(entity, declaredFields[i].getName(), resultSet.getString(StringUtil.humpToUnderline(declaredFields[i].getName())));
+            } else if (declaredFields[i].getType().getSimpleName().equals("Integer")) {
+                setPropToBean(entity, declaredFields[i].getName(), resultSet.getInt(declaredFields[i].getName()));
+            } else if (declaredFields[i].getType().getSimpleName().equals("Long")) {
+                setPropToBean(entity, declaredFields[i].getName(), resultSet.getLong(declaredFields[i].getName()));
+            }
+        }
+    }
+
+    /**
      * 为指定的bean的propName属性的值设为value
      * @param bean
      * @param propName
@@ -34,24 +52,6 @@ public class ReflectionUtil {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * 从resultSet中读取一行数据，并填充到指定的实体bean
-     * @param entity 待填充的实体bean
-     * @param resultSet 从数据库加载的数据
-     */
-    public static void setPropToBeanFromResultset(Object entity, ResultSet resultSet) throws SQLException {
-        Field[] declaredFields = entity.getClass().getDeclaredFields();
-        for (int i = 0; i < declaredFields.length; i++) {
-            if (declaredFields[i].getType().getSimpleName().equals("String")) {
-                setPropToBean(entity, declaredFields[i].getName(), resultSet.getString(StringUtil.humpToUnderline(declaredFields[i].getName())));
-            } else if (declaredFields[i].getType().getSimpleName().equals("Integer")) {
-                setPropToBean(entity, declaredFields[i].getName(), resultSet.getInt(declaredFields[i].getName()));
-            } else if (declaredFields[i].getType().getSimpleName().equals("Long")) {
-                setPropToBean(entity, declaredFields[i].getName(), resultSet.getLong(declaredFields[i].getName()));
-            }
         }
     }
 }

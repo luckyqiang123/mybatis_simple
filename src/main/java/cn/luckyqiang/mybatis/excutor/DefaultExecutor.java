@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @ClassName: DefaultExecutor
- * @Description: TODO
+ * @Description: 默认执行器
  * @Author: zhangzhiqiang
  * @Date: 2020-03-15 11:41
  * @Company: www.luckyqiang.cn
@@ -77,7 +77,7 @@ public class DefaultExecutor implements Executor {
         try {
             while (resultSet.next()) {
                 Object entity = clazz.newInstance();
-                ReflectionUtil.setPropToBeanFromResultset(entity, resultSet);
+                ReflectionUtil.setPropToBeanFromResultSet(entity, resultSet);
                 ret.add((E) entity);
             }
         } catch (Exception e) {
